@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+
+import { NavBar } from "components/shared/NavBar";
+import { NavBarContent } from "components/portfolio/navigation/NavBarContent";
+import { getClassesFromThemeColor } from "utils/theme-utils";
+import { LandingPage } from "pages/LandingPage";
+import { LoginPage } from "pages/LoginPage";
+
+import { firebaseInstance } from "api/firebase-instance";
+import { FirebaseProvider } from "api/FirebaseContext";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FirebaseProvider value={firebaseInstance}>
+      <BrowserRouter>
+        <NavBar className={"border-t-4 border-primary-main"}>
+          <NavBarContent />
+        </NavBar>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+      </BrowserRouter>
+    </FirebaseProvider>
   );
 }
 
