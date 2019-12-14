@@ -26,3 +26,5 @@ yarn-error.log*
 /src/hidden
 /.firebase
 /.firebase/*
+
+/src/index.css
