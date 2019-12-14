@@ -16,7 +16,7 @@ import {
 import { TextInput } from "components/shared/inputs/TextInput";
 
 export function ProjectSection(props) {
-  const { fileURLs, content, handleEdit, handleFileUpload, handlePush } = props;
+  const { content, handleEdit, handlePush } = props;
   const { isAdmin } = useCurrentUser();
 
   const handleProjectEdit = (projectKey, fieldKey, fieldValue) => {

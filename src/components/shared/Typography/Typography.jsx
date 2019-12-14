@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import { combineClasses } from "utils/theme-utils";
+// import { combineClasses } from "utils/theme-utils";
 
 export function Typography(props) {
   const { className, variant, children } = props;

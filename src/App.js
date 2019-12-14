@@ -3,7 +3,6 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { NavBar } from "components/shared/NavBar";
 import { NavBarContent } from "components/portfolio/navigation/NavBarContent";
-import { getClassesFromThemeColor } from "utils/theme-utils";
 import { LandingPage } from "pages/LandingPage";
 import { LoginPage } from "pages/LoginPage";
 

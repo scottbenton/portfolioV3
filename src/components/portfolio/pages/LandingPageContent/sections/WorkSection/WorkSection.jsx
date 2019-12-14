@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export function WorkSection(props) {
-  const { fileURLs, content, handleEdit, handleFileUpload, handlePush } = props;
+  const { content, handleEdit, handlePush } = props;
   const { isAdmin } = useCurrentUser();
 
   const handleJobEdit = (jobKey, fieldKey, fieldValue) => {

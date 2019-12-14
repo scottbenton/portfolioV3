@@ -9,7 +9,7 @@ import { TextInput } from "components/shared/inputs/TextInput";
 import { Button } from "components/shared/Button";
 
 export function ContactSection(props) {
-  const { fileURLs, content, handleEdit, handleFileUpload } = props;
+  const { content, handleEdit } = props;
   const { isAdmin } = useCurrentUser();
 
   return (

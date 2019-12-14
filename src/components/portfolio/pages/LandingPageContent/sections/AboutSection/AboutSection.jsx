@@ -5,7 +5,7 @@ import { EditText } from "components/portfolio/shared/EditText";
 import { EditMarkdown } from "components/portfolio/shared/EditMarkdown";
 
 export function AboutSection(props) {
-  const { fileURLs, content, handleEdit, handleFileUpload } = props;
+  const { content, handleEdit } = props;
 
   return (
     <div className={"p-2 bg-paper-main text-paper-contrastText"}>
