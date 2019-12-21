@@ -16,7 +16,7 @@ import {
 import { TextInput } from "components/shared/inputs/TextInput";
 
 export function ProjectSection(props) {
-  const { content, handleEdit, handlePush } = props;
+  const { content, fileURLs, handleFileUpload, handleEdit, handlePush } = props;
   const { isAdmin } = useCurrentUser();
 
   const handleProjectEdit = (projectKey, fieldKey, fieldValue) => {
@@ -76,18 +76,22 @@ export function ProjectSection(props) {
                   className={
                     "my-4 border-t-4 bg-paper-main text-paper-contrastText border-primary-main"
                   }
+                  header={
+                    <EditText
+                      value={project.title}
+                      handleChange={val =>
+                        handleProjectEdit(projectKey, "title", val)
+                      }
+                    >
+                      <Typography variant={"h4"}>
+                        {project.title || ""}
+                      </Typography>
+                    </EditText>
+                  }
+                  image={fileURLs[projectKey]}
+                  uploadImage={image => handleFileUpload(image, projectKey)}
                   key={projectKey}
                 >
-                  <EditText
-                    value={project.title}
-                    handleChange={val =>
-                      handleProjectEdit(projectKey, "title", val)
-                    }
-                  >
-                    <Typography variant={"h4"}>
-                      {project.title || ""}
-                    </Typography>
-                  </EditText>
                   <EditMarkdown
                     value={project.about || ""}
                     handleChange={val =>
