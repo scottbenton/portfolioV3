@@ -22,9 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# secrets
+# Secret stuff
 /src/hidden
 /.firebase
 /.firebase/*
 
-/src/index.css
+/src/styles/index.css
