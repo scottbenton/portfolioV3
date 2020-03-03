@@ -1,7 +1,16 @@
 import React, { FunctionComponent } from "react";
 
-export const Content: FunctionComponent = props => {
-  const { children } = props;
+type ContentProps = {
+  navBarHeight: number;
+};
 
-  return <div className={"pt-16 overflow-auto absolute"}>{children}</div>;
+export const Content: FunctionComponent<ContentProps> = props => {
+  const { children, navBarHeight } = props;
+
+  return (
+    <>
+      <div style={{ height: navBarHeight }} />
+      <div className={"overflow-auto w-full flex-grow"}>{children}</div>
+    </>
+  );
 };

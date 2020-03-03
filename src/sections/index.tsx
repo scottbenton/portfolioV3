@@ -8,10 +8,13 @@ import { FunctionComponent } from "react";
 
 export type SECTION_PROPS = {
   isEditing: boolean;
-  section: SECTION_CONFIG_SECTION;
+  data: any;
+  updateData: (key: string, value: any) => void;
+  uploadFile: (file: File, callback: () => void) => void;
+  getFileURL: (key: string) => Promise<any> 
 };
 
-type SECTION_CONFIG_SECTION = {
+export type SECTION_CONFIG_SECTION = {
   icon: FunctionComponent;
   label: string;
   component: FunctionComponent<SECTION_PROPS>;

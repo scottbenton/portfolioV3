@@ -1,16 +1,43 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useLayoutEffect } from "react";
 import { SECTIONS } from "sections";
 import { Button, ButtonVariants } from "../Button";
 import { ThemeColors } from "utils/theme-utils";
 import { useFirebase } from "providers/FirebaseProvider";
-import { MdSave, MdRemoveCircleOutline, MdMenu } from "react-icons/md";
+import { MdSave, MdRemoveCircleOutline } from "react-icons/md";
 
-export const NavBar: FunctionComponent = props => {
+type NavBarProps = {
+  setNavBarHeight: (navBarHeight: number) => void;
+};
+
+export const NavBar: FunctionComponent<NavBarProps> = props => {
+  const { setNavBarHeight } = props;
+
   const { logout, isAdmin } = useFirebase();
+  const navBarRef = React.useRef<HTMLDivElement>(null);
 
-  console.debug(MdSave);
+  useLayoutEffect(() => {
+    const resizeListener = () => {
+      if (navBarRef && navBarRef.current) {
+        setNavBarHeight(navBarRef.current.offsetHeight);
+      }
+    };
+
+    if (navBarRef.current) {
+      setNavBarHeight(navBarRef.current.offsetHeight);
+      window.addEventListener("resize", resizeListener);
+    }
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, [navBarRef, setNavBarHeight]);
+
   return (
-    <div className={"w-full bg-white shadow-xl flex flex-wrap items-center"}>
+    <div
+      className={
+        "w-full bg-white shadow-2xl flex flex-wrap items-center fixed z-50 overflow-visible"
+      }
+      ref={navBarRef}
+    >
       {/* <Button
         className={"flex flex-wrap h-full rounded-none w-16"}
         onClick={() => {}}
@@ -18,7 +45,11 @@ export const NavBar: FunctionComponent = props => {
         variant={ButtonVariants.default}
         icon={MdMenu}
       /> */}
-      <span className={"rubik text-3xl font-light my-2 order-1 flex-grow ml-8"}>
+      <span
+        className={
+          "rubik text-3xl font-light my-2 order-1 flex-grow ml-2 sm:ml-8"
+        }
+      >
         Scott Benton
       </span>
       <div className={"order-3 lg:order-4"} style={{ flexBasis: "100%" }} />
@@ -38,7 +69,7 @@ export const NavBar: FunctionComponent = props => {
           </Button>
         ))}
       </div>
-      <div className={"flex flex-row order-2 lg:order-3 mr-8"}>
+      <div className={"flex flex-row order-2 lg:order-3 mr-2 sm:mr-8"}>
         <Button
           color={ThemeColors.primary}
           variant={ButtonVariants.filled}

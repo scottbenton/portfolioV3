@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { FirebaseContext } from "./FirebaseContext";
 import FIREBASE_CONFIG from "hidden/firebase-config.json";
-import firebase from "firebase/app";
+import firebase, { User } from "firebase/app";
 import "firebase/auth";
 import "firebase/analytics";
 import "firebase/database";
+import "firebase/storage";
 import { APP_SETTINGS } from "config/app-settings";
 
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -13,7 +14,7 @@ export const FirebaseProvider: FunctionComponent = props => {
   const { children } = props;
   const { dbRoot } = APP_SETTINGS;
 
-  const [user, setUser] = React.useState();
+  const [user, setUser] = React.useState<User | undefined>();
   const [isAdmin, setIsAdmin] = React.useState(false);
 
   firebase.analytics();
@@ -46,7 +47,7 @@ export const FirebaseProvider: FunctionComponent = props => {
           });
         setUser(authUser);
       } else {
-        setUser(null);
+        setUser(undefined);
         setIsAdmin(false);
       }
     });

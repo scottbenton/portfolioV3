@@ -1,7 +1,9 @@
 html,
 body {
-  font-family: "Open Sans", sans-serif;
-  @apply h-full bg-gray-200 overflow-hidden;
+  font-family: "Karla", sans-serif;
+  @apply h-full;
+  @apply bg-gray-200;
+  @apply overflow-hidden;
 }
 
 input:focus,
@@ -10,17 +12,41 @@ select:focus {
   outline: none;
 }
 
+input {
+  @apply bg-transparent;
+}
+input:focus {
+  @apply border-b-2;
+  @apply border-primary-main;
+}
+
 #root {
   @apply h-full;
+  @apply flex;
+  @apply flex-col;
 }
 
 .img-shadow:after {
   content: "";
-  @apply shadow-inner block h-full absolute top-0 w-full;
+  @apply shadow-inner;
+  @apply block;
+  @apply h-full;
+  @apply absolute;
+  @apply top-0;
+  @apply w-full;
 }
 
 .btn {
-  @apply items-center flex flex-row py-1 px-4 uppercase rounded-full flex-shrink-0;
+  @apply items-center;
+  @apply flex;
+  @apply flex-row;
+  @apply py-1;
+  @apply px-4;
+  @apply uppercase;
+  @apply rounded-full;
+  @apply flex-shrink-0;
+  @apply overflow-visible;
+  @apply font-bold;
 }
 
 .btn:focus {
@@ -77,9 +103,12 @@ select:focus {
   font-family: "rubik", sans-serif;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
 h1,
 h2,
 h3,
@@ -88,46 +117,60 @@ h5,
 h6 {
   font-family: "rubik", sans-serif;
   font-weight: lighter;
+  @apply flex;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.h1,
 h1 {
-  @apply text-6xl;
-}
-
-h2 {
   @apply text-5xl;
 }
 
-h3 {
+.h2,
+h2 {
   @apply text-4xl;
 }
 
-h4 {
+.h3,
+h3 {
   @apply text-3xl;
 }
 
-h5 {
+.h4,
+h4 {
   @apply text-2xl;
 }
 
-h6 {
+.h5,
+h5 {
   @apply text-xl;
 }
 
-p {
+.h6,
+h6 {
   @apply text-lg;
+}
+
+.p,
+p {
   text-indent: 2em;
 }
 
+.ul,
 ul {
   list-style: disc;
   @apply ml-4;
 }
 
+.li,
 li {
   @apply my-2;
 }
 
+.hr,
 hr {
   @apply my-4;
 }

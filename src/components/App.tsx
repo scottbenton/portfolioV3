@@ -8,10 +8,13 @@ import { Button, ButtonVariants } from "./shared/Button";
 import { ThemeColors } from "utils/theme-utils";
 import { MdSave, MdEdit } from "react-icons/md";
 import { useFirebase } from "providers/FirebaseProvider";
+import { SectionWrapper } from "sections/SectionWrapper";
 
 export function App() {
   const [isEditing, setIsEditing] = React.useState(false);
   const { isAdmin } = useFirebase();
+
+  const [navBarHeight, setNavBarHeight] = React.useState(0);
   return (
     <>
       <Switch>
@@ -19,16 +22,15 @@ export function App() {
           <LoginPage />
         </Route>
         <Route path="/">
-          <NavBar />
-          <Content>
-            {Object.values(SECTIONS).map((section, index) => {
-              const { component } = section;
-              return React.createElement(component, {
-                key: index,
-                isEditing,
-                section
-              });
-            })}
+          <NavBar setNavBarHeight={setNavBarHeight} />
+          <Content navBarHeight={navBarHeight}>
+            {Object.values(SECTIONS).map((section, index) => (
+              <SectionWrapper
+                key={index}
+                section={section}
+                isEditing={isEditing}
+              />
+            ))}
           </Content>
         </Route>
       </Switch>
@@ -38,7 +40,9 @@ export function App() {
           color={ThemeColors.secondary}
           onClick={() => setIsEditing(prevEditing => !prevEditing)}
           icon={isEditing ? MdSave : MdEdit}
-          className={"fixed bottom-0 right-0 mb-4 mr-4 p-4 shadow-xl"}
+          className={
+            "fixed bottom-0 right-0 mb-4 mr-4 p-4 shadow-xl z-40 overflow-visible"
+          }
         />
       )}
     </>

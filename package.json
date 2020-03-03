@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-v4",
+  "name": "portfolio-v3",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
     "build:css": "postcss src/styles/tailwind.css -o src/styles/index.css",
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/index.css -w",
     "start": "npm run watch:css & react-scripts start",
+    "onlyStart": "react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -12,7 +12,7 @@ export const Card: FunctionComponent<CardProps> = props => {
     <div
       className={combineClasses([
         className,
-        "rounded bg-paper-main text-paper-contrastText rounded-lg, mx-auto, shadow-md"
+        "bg-paper-main text-paper-contrastText rounded-lg mx-auto shadow-md"
       ])}
     >
       {children}

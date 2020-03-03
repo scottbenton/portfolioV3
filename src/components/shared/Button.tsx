@@ -11,11 +11,11 @@ export enum ButtonVariants {
   default = "default"
 }
 
-interface ButtonProps {
-  color: ThemeColors;
-  variant: ButtonVariants;
+export interface ButtonProps {
+  color?: ThemeColors;
+  variant?: ButtonVariants;
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
   link?: string;
   icon?: React.FunctionComponent<any>;
   startIcon?: React.FunctionComponent<any>;
@@ -61,16 +61,17 @@ export const Button: FunctionComponent<ButtonProps> = props => {
 
   const handleClick = (evt: any) => {
     evt.target.blur();
-    onClick();
+    if(onClick) {
+      onClick();
+    }
   };
 
   const classes = combineClasses([
     className,
-    VARIANT_CLASSES[variant](color),
+    VARIANT_CLASSES[variant || ButtonVariants.default](color || ThemeColors.default),
     "btn ripple"
   ]);
 
-  console.debug(props);
   const buttonIconClasses = combineClasses(["w-6 h-6 mx-auto", iconClasses]);
   const btnChildren = (
     <>
@@ -105,5 +106,6 @@ export const Button: FunctionComponent<ButtonProps> = props => {
 
 Button.defaultProps = {
   variant: ButtonVariants.default,
-  color: ThemeColors.default
+  color: ThemeColors.default,
+  onClick: () => {}
 };
