@@ -4,9 +4,9 @@ import { TextDisplay } from "components/shared/TextDisplay";
 import { FileUploadButton } from "components/shared/FileUploadButton";
 import { MdInsertPhoto } from "react-icons/md";
 import { Card } from "components/shared/Card";
-import classes from "*.module.css";
-import { Button, ButtonVariants } from "components/shared/Button";
+import { ButtonVariants } from "components/shared/Button";
 import { ThemeColors } from "utils/theme-utils";
+import { MarkdownDisplay } from "components/shared/MarkdownDisplay";
 
 export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
   const { isEditing, data, updateData, getFileURL, uploadFile } = props;
@@ -92,6 +92,11 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
           isEditing={isEditing}
           component={"h3"}
           className={"self-center"}
+        />
+        <MarkdownDisplay
+          value={data["about"]}
+          onChange={val => updateData("about", val)}
+          isEditing={isEditing}
         />
       </div>
     </div>
