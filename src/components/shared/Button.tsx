@@ -61,15 +61,18 @@ export const Button: FunctionComponent<ButtonProps> = props => {
 
   const handleClick = (evt: any) => {
     evt.target.blur();
-    if(onClick) {
+    if (onClick) {
       onClick();
     }
   };
 
   const classes = combineClasses([
     className,
-    VARIANT_CLASSES[variant || ButtonVariants.default](color || ThemeColors.default),
-    "btn ripple"
+    VARIANT_CLASSES[variant || ButtonVariants.default](
+      color || ThemeColors.default
+    ),
+    "btn ripple",
+    icon ? "p-2" : ""
   ]);
 
   const buttonIconClasses = combineClasses(["w-6 h-6 mx-auto", iconClasses]);

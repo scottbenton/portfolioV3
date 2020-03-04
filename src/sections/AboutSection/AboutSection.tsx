@@ -26,7 +26,7 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
     <div className={"w-full flex flex-col bg-paper-main "}>
       <div
         className={
-          "bg-grey-500 pt-32 md:pt-64 overflow-hidden bg-cover bg-center bg-fixed text-white flex overflow-visible relative"
+          "bg-grey-500 pt-32 md:pt-64 overflow-hidden bg-cover bg-center bg-fixed text-white flex overflow-visible relative mb-24"
         }
         style={{
           backgroundImage:
@@ -46,7 +46,7 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
         )}
         <Card
           className={
-            "flex flex-col p-4 px-8 lg:px-16 inline-flex items-center shadow-2xl -mb-24 z-10"
+            "flex flex-col p-4 px-8 lg:px-16 inline-flex items-center shadow-2xl -mb-24 z-10 border-t-4 border-primary-main"
           }
         >
           {profileImageURL && (
@@ -82,10 +82,21 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
             component={"h2"}
             className={"text-center"}
           />
+          {isEditing && (
+            <FileUploadButton
+              variant={ButtonVariants.filled}
+              color={ThemeColors.secondary}
+              handleFile={file =>
+                uploadFile(file, () => updateData("resume", file.name))
+              }
+            >
+              Update your Resume
+            </FileUploadButton>
+          )}
         </Card>
       </div>
 
-      <div className={"pt-32 w-full flex flex-col max-w-4xl mx-auto"}>
+      <div className={"py-8 px-4 w-full flex flex-col max-w-4xl mx-auto"}>
         <TextDisplay
           value={data["header"]}
           onChange={val => updateData("header", val)}

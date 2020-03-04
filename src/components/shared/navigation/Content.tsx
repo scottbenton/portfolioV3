@@ -9,7 +9,7 @@ export const Content: FunctionComponent<ContentProps> = props => {
 
   return (
     <>
-      <div style={{ height: navBarHeight }} />
+      <div style={{ minHeight: navBarHeight }} />
       <div className={"overflow-auto w-full flex-grow"}>{children}</div>
     </>
   );

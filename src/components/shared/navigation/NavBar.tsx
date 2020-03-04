@@ -1,9 +1,11 @@
-import React, { FunctionComponent, useLayoutEffect } from "react";
+import React, { FunctionComponent, useLayoutEffect, useEffect } from "react";
 import { SECTIONS } from "sections";
 import { Button, ButtonVariants } from "../Button";
 import { ThemeColors } from "utils/theme-utils";
 import { useFirebase } from "providers/FirebaseProvider";
 import { MdSave, MdRemoveCircleOutline } from "react-icons/md";
+import firebase from "firebase/app";
+import { APP_SETTINGS } from "config/app-settings";
 
 type NavBarProps = {
   setNavBarHeight: (navBarHeight: number) => void;
@@ -14,6 +16,8 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
 
   const { logout, isAdmin } = useFirebase();
   const navBarRef = React.useRef<HTMLDivElement>(null);
+
+  const [resumeLink, setResumeLink] = React.useState("");
 
   useLayoutEffect(() => {
     const resizeListener = () => {
@@ -30,6 +34,22 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
       window.removeEventListener("resize", resizeListener);
     };
   }, [navBarRef, setNavBarHeight]);
+
+  useEffect(() => {
+    const dbLocation =
+      APP_SETTINGS.dbRoot + "/" + SECTIONS.about.dbKey + "/resume";
+    const setUrl = async () => {};
+    firebase
+      .database()
+      .ref(dbLocation)
+      .on("value", setUrl);
+    return () => {
+      firebase
+        .database()
+        .ref(dbLocation)
+        .off("value", setUrl);
+    };
+  }, []);
 
   return (
     <div

@@ -4,6 +4,7 @@ body {
   @apply h-full;
   @apply bg-gray-200;
   @apply overflow-hidden;
+  @apply antialiased;
 }
 
 input:focus,
@@ -103,6 +104,10 @@ input:focus {
   font-family: "rubik", sans-serif;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .h1,
 .h2,
 .h3,
@@ -119,10 +124,6 @@ h6 {
   font-weight: lighter;
   @apply flex;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 .h1,
 h1 {

@@ -55,6 +55,8 @@ export const FirebaseProvider: FunctionComponent = props => {
 
   let logout = () => firebase.auth().signOut();
 
+  console.debug(user);
+
   return (
     <FirebaseContext.Provider value={{ login, logout, isAdmin }}>
       {children}
