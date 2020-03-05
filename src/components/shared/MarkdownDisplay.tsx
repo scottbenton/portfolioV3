@@ -22,10 +22,12 @@ export const MarkdownDisplay: FunctionComponent<MarkdownDisplayProps> = props =>
       <MdEditor
         value={value}
         onChange={output => onChange(output.text)}
-        renderHTML={(text: string) => <MarkdownViewer source={text} />}
+        renderHTML={(text: string) => (
+          <MarkdownViewer source={text} className={className} />
+        )}
       />
     );
   } else {
-    return <MarkdownViewer source={value} />;
+    return <MarkdownViewer source={value} className={className} />;
   }
 };

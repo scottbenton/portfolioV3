@@ -37,7 +37,6 @@ export function App() {
     const container = contentRef.current;
     if (refs[sectionKey] && refs[sectionKey].offsetTop && container) {
       let top = refs[sectionKey].offsetTop - container.offsetTop;
-      console.debug(top);
       if (container) {
         container.scrollTo(0, top);
       }
@@ -60,21 +59,33 @@ export function App() {
             setSelectedSectionKey(SECTIONS.contact.dbKey);
           } else {
             let closestSectionKey = SECTIONS.about.dbKey;
-
-            Object.keys(refs).forEach((refKey: any) => {
-              if (refs[refKey].offsetTop - offsetTop <= scrollTop) {
-                closestSectionKey = refKey;
+            let refKeys = Object.keys(refs);
+            for (let i = 0; i < refKeys.length; i++) {
+              if (refs[refKeys[i]].offsetTop - offsetTop <= scrollTop) {
+                closestSectionKey = refKeys[i];
+              } else {
+                break;
               }
-            });
+            }
             setSelectedSectionKey(closestSectionKey);
           }
         }
       }
     };
 
+    let refTarget: HTMLDivElement;
+
     if (contentRef.current) {
-      contentRef.current.addEventListener("scroll", scrollListener);
+      refTarget = contentRef.current;
+      contentRef.current.addEventListener("scroll", scrollListener, {
+        passive: true
+      });
     }
+    return () => {
+      if (refTarget) {
+        refTarget.removeEventListener("scroll", scrollListener);
+      }
+    };
   }, [contentRef, refs]);
 
   return (
@@ -89,7 +100,7 @@ export function App() {
             scrollSectionIntoView={scrollSectionIntoView}
             selectedSectionKey={selectedSectionKey}
           />
-          <Content navBarHeight={navBarHeight} refProp={contentRef}>
+          <Content navBarHeight={navBarHeight} contentRef={contentRef}>
             {Object.values(SECTIONS).map((section, index) => (
               <SectionWrapper
                 key={index}

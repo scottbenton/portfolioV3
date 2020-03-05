@@ -121,7 +121,7 @@ export const ProjectSection: FunctionComponent<SECTION_PROPS> = props => {
             <Card
               key={index}
               className={
-                "mx-2 my-4 w-full max-w-xl border-t-2 border-primary-main"
+                "mx-2 my-4 w-full max-w-xl border-t-4 border-primary-main"
               }
             >
               <div className={"p-4"}>

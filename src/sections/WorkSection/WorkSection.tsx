@@ -79,7 +79,7 @@ export const WorkSection: FunctionComponent<SECTION_PROPS> = props => {
           <Card
             key={index}
             className={
-              "p-4 mx-2 my-4 w-full max-w-xl border-t-2 border-primary-main"
+              "p-4 mx-2 my-4 w-full max-w-xl border-t-4 border-primary-main"
             }
           >
             <TextDisplay

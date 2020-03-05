@@ -1,12 +1,13 @@
-import React, { FunctionComponent, Ref } from "react";
+import React, { FunctionComponent, Ref, ReactNode } from "react";
 
-type ContentProps = {
+interface ContentProps {
   navBarHeight: number;
-  refProp: Ref<any>;
-};
+  children: ReactNode;
+  contentRef: Ref<HTMLDivElement>;
+}
 
 export const Content: FunctionComponent<ContentProps> = props => {
-  const { children, navBarHeight, refProp } = props;
+  const { children, navBarHeight, contentRef } = props;
 
   return (
     <>
@@ -14,7 +15,7 @@ export const Content: FunctionComponent<ContentProps> = props => {
       <div
         className={"overflow-auto w-full flex-grow"}
         style={{ scrollBehavior: "smooth" }}
-        ref={refProp}
+        ref={contentRef}
       >
         {children}
       </div>

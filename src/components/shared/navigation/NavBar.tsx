@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useLayoutEffect, useEffect } from "react";
 import { SECTIONS } from "sections";
 import { Button, ButtonVariants } from "../Button";
-import { ThemeColors, combineClasses } from "utils/theme-utils";
+import { ThemeColors } from "utils/theme-utils";
 import { useFirebase } from "providers/FirebaseProvider";
 import { MdSave, MdRemoveCircleOutline } from "react-icons/md";
 import firebase from "firebase/app";
@@ -71,7 +71,7 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
   return (
     <div
       className={
-        "w-full bg-white shadow-2xl flex flex-wrap items-center fixed z-50 overflow-visible"
+        "w-full bg-white shadow-2xl flex flex-wrap items-center fixed z-50 overflow-visible border-primary-main border-b-4"
       }
       ref={navBarRef}
     >
@@ -91,20 +91,27 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
       </span>
       <div className={"order-3 lg:order-4"} style={{ flexBasis: "100%" }} />
       <div
-        className={"flex order-4 lg:order-2 mx-auto lg:mx-0 overflow-x-auto"}
+        className={
+          "flex order-4 lg:order-2 mx-auto lg:mx-0 overflow-x-auto self-end"
+        }
       >
         {Object.values(SECTIONS).map(({ label, dbKey }, index) => (
           <Button
             key={index}
             onClick={() => scrollSectionIntoView(dbKey)}
-            variant={ButtonVariants.default}
-            color={ThemeColors.default}
-            className={combineClasses([
-              "rounded-none py-2",
+            variant={
               selectedSectionKey === dbKey
-                ? "border-primary-main border-b-4 text-primary-main"
-                : ""
-            ])}
+                ? ButtonVariants.filled
+                : ButtonVariants.default
+            }
+            color={
+              selectedSectionKey === dbKey
+                ? ThemeColors.primary
+                : ThemeColors.default
+            }
+            className={
+              "rounded-b-none py-2 pb-4 rounded-t-lg transition-colors ease-in-out duration-300 shadow-none"
+            }
             style={{ overflow: "-moz-hidden-unscrollable" }}
           >
             {label}
@@ -115,7 +122,7 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
         {resumeLink && (
           <Button
             color={ThemeColors.primary}
-            variant={ButtonVariants.filled}
+            variant={ButtonVariants.outlined}
             className={"ml-2 my-2"}
             link={resumeLink}
             endIcon={MdSave}

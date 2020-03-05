@@ -3,10 +3,10 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          light: "#90CDF4",
-          main: "#63B3ED",
-          dark: "#3182CE",
-          contrastText: "#000000CC"
+          light: "#BEE3F8",
+          main: "#3182CE",
+          dark: "#2C5282",
+          contrastText: "#FFFFFFCC"
         },
         secondary: {
           light: "#FEB2B2",
