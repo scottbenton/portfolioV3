@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Ref, useLayoutEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { LoginPage } from "./portfolio/LoginPage";
 import { SECTIONS } from "sections";
@@ -10,11 +10,73 @@ import { MdSave, MdEdit } from "react-icons/md";
 import { useFirebase } from "providers/FirebaseProvider";
 import { SectionWrapper } from "sections/SectionWrapper";
 
+type refArrayType = {
+  [key: string]: any;
+};
+
 export function App() {
   const [isEditing, setIsEditing] = React.useState(false);
   const { isAdmin } = useFirebase();
+  const contentRef = React.useRef<any>();
+  const [selectedSectionKey, setSelectedSectionKey] = React.useState(
+    SECTIONS.about.dbKey
+  );
+
+  const [refs, setRefs] = React.useState<refArrayType>({});
+  const updateRefByKey = React.useCallback((key: string, value: Ref<any>) => {
+    setRefs(oldRefs => {
+      let newRefs = { ...oldRefs };
+      newRefs[key] = value;
+      return newRefs;
+    });
+  }, []);
 
   const [navBarHeight, setNavBarHeight] = React.useState(0);
+
+  const scrollSectionIntoView = (sectionKey: string) => {
+    const container = contentRef.current;
+    if (refs[sectionKey] && refs[sectionKey].offsetTop && container) {
+      let top = refs[sectionKey].offsetTop - container.offsetTop;
+      console.debug(top);
+      if (container) {
+        container.scrollTo(0, top);
+      }
+    }
+  };
+
+  useLayoutEffect(() => {
+    const scrollListener = (evt: any) => {
+      if (contentRef.current) {
+        if (evt.target) {
+          const {
+            scrollHeight,
+            scrollTop,
+            clientHeight,
+            offsetTop
+          } = evt.target;
+          const isUserAtBottom = scrollHeight - scrollTop === clientHeight;
+
+          if (isUserAtBottom) {
+            setSelectedSectionKey(SECTIONS.contact.dbKey);
+          } else {
+            let closestSectionKey = SECTIONS.about.dbKey;
+
+            Object.keys(refs).forEach((refKey: any) => {
+              if (refs[refKey].offsetTop - offsetTop <= scrollTop) {
+                closestSectionKey = refKey;
+              }
+            });
+            setSelectedSectionKey(closestSectionKey);
+          }
+        }
+      }
+    };
+
+    if (contentRef.current) {
+      contentRef.current.addEventListener("scroll", scrollListener);
+    }
+  }, [contentRef, refs]);
+
   return (
     <>
       <Switch>
@@ -22,13 +84,18 @@ export function App() {
           <LoginPage />
         </Route>
         <Route path="/">
-          <NavBar setNavBarHeight={setNavBarHeight} />
-          <Content navBarHeight={navBarHeight}>
+          <NavBar
+            setNavBarHeight={setNavBarHeight}
+            scrollSectionIntoView={scrollSectionIntoView}
+            selectedSectionKey={selectedSectionKey}
+          />
+          <Content navBarHeight={navBarHeight} refProp={contentRef}>
             {Object.values(SECTIONS).map((section, index) => (
               <SectionWrapper
                 key={index}
                 section={section}
                 isEditing={isEditing}
+                updateRefByKey={updateRefByKey}
               />
             ))}
           </Content>

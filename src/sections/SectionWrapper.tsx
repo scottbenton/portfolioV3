@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useLayoutEffect } from "react";
 import { SECTION_CONFIG_SECTION } from "sections";
 import firebase from "firebase/app";
 
@@ -7,6 +7,7 @@ import { APP_SETTINGS } from "config/app-settings";
 type SectionWrapperProps = {
   isEditing: boolean;
   section: SECTION_CONFIG_SECTION;
+  updateRefByKey: (key: string, ref: any) => void;
 };
 
 type changesType = {
@@ -14,14 +15,22 @@ type changesType = {
 };
 
 export const SectionWrapper: FunctionComponent<SectionWrapperProps> = props => {
-  const { section, isEditing } = props;
+  const { section, isEditing, updateRefByKey } = props;
   const { component, dbKey } = section;
+
+  const containerRef = React.useRef<any>();
 
   const [data, setData] = React.useState();
   const [changes, setChanges] = React.useState<changesType>({});
 
   const dbRoot = APP_SETTINGS.dbRoot;
   const pageRoot = dbRoot + "/" + dbKey;
+
+  useLayoutEffect(() => {
+    if (containerRef && containerRef.current && dbKey) {
+      updateRefByKey(dbKey, containerRef.current);
+    }
+  }, [containerRef, updateRefByKey, dbKey]);
 
   useEffect(() => {
     const handleSnapshot = (snapshot: any) => {
@@ -91,7 +100,7 @@ export const SectionWrapper: FunctionComponent<SectionWrapperProps> = props => {
   const dataWithChanges = Object.assign({}, data, changes);
 
   return (
-    <div>
+    <div ref={containerRef}>
       {React.createElement(component, {
         isEditing,
         data: dataWithChanges,

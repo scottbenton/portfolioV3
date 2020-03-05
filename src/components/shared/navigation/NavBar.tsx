@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useLayoutEffect, useEffect } from "react";
 import { SECTIONS } from "sections";
 import { Button, ButtonVariants } from "../Button";
-import { ThemeColors } from "utils/theme-utils";
+import { ThemeColors, combineClasses } from "utils/theme-utils";
 import { useFirebase } from "providers/FirebaseProvider";
 import { MdSave, MdRemoveCircleOutline } from "react-icons/md";
 import firebase from "firebase/app";
@@ -9,15 +9,17 @@ import { APP_SETTINGS } from "config/app-settings";
 
 type NavBarProps = {
   setNavBarHeight: (navBarHeight: number) => void;
+  scrollSectionIntoView: (sectionKey: string) => void;
+  selectedSectionKey: string;
 };
 
 export const NavBar: FunctionComponent<NavBarProps> = props => {
-  const { setNavBarHeight } = props;
+  const { setNavBarHeight, scrollSectionIntoView, selectedSectionKey } = props;
 
   const { logout, isAdmin } = useFirebase();
   const navBarRef = React.useRef<HTMLDivElement>(null);
 
-  const [resumeLink, setResumeLink] = React.useState("");
+  const [resumeLink, setResumeLink] = React.useState();
 
   useLayoutEffect(() => {
     const resizeListener = () => {
@@ -36,17 +38,32 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
   }, [navBarRef, setNavBarHeight]);
 
   useEffect(() => {
-    const dbLocation =
-      APP_SETTINGS.dbRoot + "/" + SECTIONS.about.dbKey + "/resume";
-    const setUrl = async () => {};
+    const dbLocation = APP_SETTINGS.dbRoot + "/" + SECTIONS.about.dbKey;
+    const setUrl = async (snapshot: any) => {
+      const filename = snapshot.val();
+      console.debug(filename);
+      if (filename) {
+        const url = await firebase
+          .storage()
+          .ref(dbLocation)
+          .child(filename)
+          .getDownloadURL();
+        console.debug(url);
+        setResumeLink(url);
+      } else {
+        console.debug("NO RESUME FOUND");
+        setResumeLink(undefined);
+      }
+    };
+
     firebase
       .database()
-      .ref(dbLocation)
+      .ref(dbLocation + "/resume")
       .on("value", setUrl);
     return () => {
       firebase
         .database()
-        .ref(dbLocation)
+        .ref(dbLocation + "/resume")
         .off("value", setUrl);
     };
   }, []);
@@ -76,13 +93,18 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
       <div
         className={"flex order-4 lg:order-2 mx-auto lg:mx-0 overflow-x-auto"}
       >
-        {Object.values(SECTIONS).map(({ label }, index) => (
+        {Object.values(SECTIONS).map(({ label, dbKey }, index) => (
           <Button
             key={index}
-            onClick={() => {}}
+            onClick={() => scrollSectionIntoView(dbKey)}
             variant={ButtonVariants.default}
             color={ThemeColors.default}
-            className={"my-2"}
+            className={combineClasses([
+              "rounded-none py-2",
+              selectedSectionKey === dbKey
+                ? "border-primary-main border-b-4 text-primary-main"
+                : ""
+            ])}
             style={{ overflow: "-moz-hidden-unscrollable" }}
           >
             {label}
@@ -90,15 +112,17 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
         ))}
       </div>
       <div className={"flex flex-row order-2 lg:order-3 mr-2 sm:mr-8"}>
-        <Button
-          color={ThemeColors.primary}
-          variant={ButtonVariants.filled}
-          className={"ml-2 my-2"}
-          onClick={() => {}}
-          endIcon={MdSave}
-        >
-          Resume
-        </Button>
+        {resumeLink && (
+          <Button
+            color={ThemeColors.primary}
+            variant={ButtonVariants.filled}
+            className={"ml-2 my-2"}
+            link={resumeLink}
+            endIcon={MdSave}
+          >
+            Resume
+          </Button>
+        )}
         {isAdmin && (
           <Button
             color={ThemeColors.secondary}
