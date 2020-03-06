@@ -33,7 +33,9 @@ export function getColorClasses(color: ThemeColors) {
         contrastText: "text-secondary-contrastText"
       };
     default:
-      return {};
+      return {
+        light: "bg-gray-200"
+      };
   }
 }
 
