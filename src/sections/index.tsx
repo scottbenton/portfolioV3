@@ -11,7 +11,8 @@ export type SECTION_PROPS = {
   data: any;
   updateData: (key: string, value: any) => void;
   uploadFile: (file: File, callback: () => void) => void;
-  getFileURL: (key: string) => Promise<any> 
+  getFileURL: (key: string) => Promise<any>;
+  setIsLoaded: () => void;
 };
 
 export type SECTION_CONFIG_SECTION = {

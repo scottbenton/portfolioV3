@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { TextDisplay } from "components/shared/TextDisplay";
 import { SECTION_PROPS } from "sections";
 import { Button, ButtonVariants } from "components/shared/Button";
@@ -19,9 +19,15 @@ type jobType = {
 };
 
 export const WorkSection: FunctionComponent<SECTION_PROPS> = props => {
-  const { data, updateData, isEditing } = props;
+  const { data, updateData, isEditing, setIsLoaded } = props;
 
   const { jobs = [] } = data;
+
+  useEffect(() => {
+    if (data && Object.values(data).length > 0) {
+      setIsLoaded();
+    }
+  }, [data, setIsLoaded]);
 
   const handleJobEdit = (
     jobIndex: number,

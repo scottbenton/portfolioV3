@@ -71,7 +71,7 @@ export const NavBar: FunctionComponent<NavBarProps> = props => {
   return (
     <div
       className={
-        "w-full bg-white shadow-2xl flex flex-wrap items-center fixed z-50 overflow-visible border-primary-main border-b-4"
+        "w-full bg-white shadow-2xl flex flex-wrap items-center fixed z-40 overflow-visible border-primary-main border-b-4"
       }
       ref={navBarRef}
     >

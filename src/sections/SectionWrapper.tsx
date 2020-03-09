@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useLayoutEffect } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useCallback
+} from "react";
 import { SECTION_CONFIG_SECTION } from "sections";
 import firebase from "firebase/app";
 
@@ -8,6 +13,7 @@ type SectionWrapperProps = {
   isEditing: boolean;
   section: SECTION_CONFIG_SECTION;
   updateRefByKey: (key: string, ref: any) => void;
+  updateWhenLoaded: (key: string, value: boolean) => void;
 };
 
 type changesType = {
@@ -15,7 +21,7 @@ type changesType = {
 };
 
 export const SectionWrapper: FunctionComponent<SectionWrapperProps> = props => {
-  const { section, isEditing, updateRefByKey } = props;
+  const { section, isEditing, updateRefByKey, updateWhenLoaded } = props;
   const { component, dbKey } = section;
 
   const containerRef = React.useRef<any>();
@@ -99,6 +105,11 @@ export const SectionWrapper: FunctionComponent<SectionWrapperProps> = props => {
 
   const dataWithChanges = Object.assign({}, data, changes);
 
+  const setIsLoaded = useCallback(() => updateWhenLoaded(dbKey, true), [
+    dbKey,
+    updateWhenLoaded
+  ]);
+
   return (
     <div ref={containerRef}>
       {React.createElement(component, {
@@ -106,7 +117,8 @@ export const SectionWrapper: FunctionComponent<SectionWrapperProps> = props => {
         data: dataWithChanges,
         updateData,
         uploadFile,
-        getFileURL
+        getFileURL,
+        setIsLoaded
       })}
     </div>
   );

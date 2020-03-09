@@ -27,7 +27,14 @@ type projectImageMapType = {
 };
 
 export const ProjectSection: FunctionComponent<SECTION_PROPS> = props => {
-  const { data, updateData, isEditing, getFileURL, uploadFile } = props;
+  const {
+    data,
+    updateData,
+    isEditing,
+    getFileURL,
+    uploadFile,
+    setIsLoaded
+  } = props;
 
   const { projects } = data;
 
@@ -97,6 +104,12 @@ export const ProjectSection: FunctionComponent<SECTION_PROPS> = props => {
     }
   }, [projects, getFileURL, projectImageMap]);
 
+  useEffect(() => {
+    if (data && Object.values(data).length > 0) {
+      setIsLoaded();
+    }
+  }, [data, setIsLoaded]);
+
   return (
     <div className={"w-full flex flex-col py-8 px-4"}>
       <TextDisplay
@@ -141,13 +154,13 @@ export const ProjectSection: FunctionComponent<SECTION_PROPS> = props => {
                 }
                 isEditing={isEditing}
               />
-              <div className={"p-4"}>
+              <div className={"p-4 flex flex-col"}>
                 <MarkdownDisplay
                   value={description || ""}
                   onChange={val => handleProjectEdit(index, "description", val)}
                   isEditing={isEditing}
                 />
-                <div className={"flex flex-wrap mt-4"}>
+                <div className={"flex flex-wrap mt-4 bg-gray self-end"}>
                   <Link
                     href={codeLink || ""}
                     isEditing={isEditing}
@@ -161,6 +174,7 @@ export const ProjectSection: FunctionComponent<SECTION_PROPS> = props => {
                     isEditing={isEditing}
                     onChange={val => handleProjectEdit(index, "prodLink", val)}
                     variant={ButtonVariants.outlined}
+                    color={ThemeColors.primary}
                   >
                     Visit the Project
                   </Link>

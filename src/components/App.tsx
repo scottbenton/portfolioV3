@@ -9,8 +9,9 @@ import { ThemeColors } from "utils/theme-utils";
 import { MdSave, MdEdit } from "react-icons/md";
 import { useFirebase } from "providers/FirebaseProvider";
 import { SectionWrapper } from "sections/SectionWrapper";
+import { LoadingScreen } from "./portfolio/LoadingScreen";
 
-type refArrayType = {
+type mapType = {
   [key: string]: any;
 };
 
@@ -22,7 +23,7 @@ export function App() {
     SECTIONS.about.dbKey
   );
 
-  const [refs, setRefs] = React.useState<refArrayType>({});
+  const [refs, setRefs] = React.useState<mapType>({});
   const updateRefByKey = React.useCallback((key: string, value: Ref<any>) => {
     setRefs(oldRefs => {
       let newRefs = { ...oldRefs };
@@ -30,6 +31,25 @@ export function App() {
       return newRefs;
     });
   }, []);
+
+  const [sectionLoadingMap, setSectionLoadingMap] = React.useState<mapType>({});
+  const updateSectionLoadByKey = React.useCallback(
+    (key: string, value: boolean) => {
+      setSectionLoadingMap(oldMap => {
+        if (oldMap[key]) {
+          return oldMap;
+        }
+        let newMap = { ...oldMap };
+        newMap[key] = value;
+        return newMap;
+      });
+    },
+    []
+  );
+  const isLoaded =
+    Object.values(sectionLoadingMap).length === Object.values(SECTIONS).length;
+
+  console.debug(isLoaded);
 
   const [navBarHeight, setNavBarHeight] = React.useState(0);
 
@@ -95,6 +115,7 @@ export function App() {
           <LoginPage />
         </Route>
         <Route path="/">
+          <LoadingScreen isLoading={!isLoaded} />
           <NavBar
             setNavBarHeight={setNavBarHeight}
             scrollSectionIntoView={scrollSectionIntoView}
@@ -107,6 +128,7 @@ export function App() {
                 section={section}
                 isEditing={isEditing}
                 updateRefByKey={updateRefByKey}
+                updateWhenLoaded={updateSectionLoadByKey}
               />
             ))}
           </Content>

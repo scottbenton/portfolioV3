@@ -9,7 +9,14 @@ import { ThemeColors } from "utils/theme-utils";
 import { MarkdownDisplay } from "components/shared/MarkdownDisplay";
 
 export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
-  const { isEditing, data, updateData, getFileURL, uploadFile } = props;
+  const {
+    isEditing,
+    data,
+    updateData,
+    getFileURL,
+    uploadFile,
+    setIsLoaded
+  } = props;
 
   const [splashImageURL, setSplashImageURL] = React.useState("");
   const [profileImageURL, setProfileImageURL] = React.useState("");
@@ -21,6 +28,17 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
     };
     getFile();
   }, [data, getFileURL]);
+
+  useEffect(() => {
+    if (
+      data &&
+      Object.values(data).length > 0 &&
+      splashImageURL &&
+      profileImageURL
+    ) {
+      setIsLoaded();
+    }
+  }, [splashImageURL, profileImageURL, data, setIsLoaded]);
 
   return (
     <div className={"w-full flex flex-col bg-paper-main "}>
