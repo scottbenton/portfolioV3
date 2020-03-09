@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "portfolio-73c90"
+  },
+  "targets": {
+    "portfolio-73c90": {
+      "hosting": {
+        "prod-portfolio": [
+          "portfolio-73c90"
+        ],
+        "beta-portfolio": [
+          "beta-portfolio-73c90"
+        ]
+      }
+    }
   }
 }
