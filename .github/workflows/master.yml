@@ -34,6 +34,6 @@ jobs:
       - name: Deploy Prod
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:beta-portfolio
+          args: deploy --only hosting:prod-portfolio
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

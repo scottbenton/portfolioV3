@@ -49,8 +49,6 @@ export function App() {
   const isLoaded =
     Object.values(sectionLoadingMap).length === Object.values(SECTIONS).length;
 
-  console.debug(isLoaded);
-
   const [navBarHeight, setNavBarHeight] = React.useState(0);
 
   const scrollSectionIntoView = (sectionKey: string) => {
