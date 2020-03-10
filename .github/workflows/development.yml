@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@development
+        uses: actions/checkout@v2
+        with: 
+          ref: 'development'
       - name: Install Dependencies
         run: npm install
       - name: Build
         run: npm run build
       - name: Archive Production Artifact
-        uses: actions/upload-artifact@development
+        uses: actions/upload-artifact@v1
         with:
-          name: build
+          name: beta-build
           path: build
   deploy:
     name: Deploy
@@ -28,9 +30,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
       - name: Download Artifact
-        uses: actions/download-artifact@development
+        uses: actions/download-artifact@v1
         with:
-          name: build
+          name: beta-build
       - name: Deploy Prod
         uses: w9jds/firebase-action@development
         with:
