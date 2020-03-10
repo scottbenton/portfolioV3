@@ -8,7 +8,6 @@ export const ContactSection: FunctionComponent<SECTION_PROPS> = props => {
 
   useEffect(() => {
     if (data && Object.values(data).length > 0) {
-      console.debug(data);
       setIsLoaded();
     }
   }, [data, setIsLoaded]);
