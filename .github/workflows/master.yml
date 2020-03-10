@@ -1,8 +1,8 @@
-name: Deploy Master
+name: Deploy Beta
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   build:
@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: npm install
       - name: Build
         run: npm run build
       - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v1
         with:
-          name: build
+          name: prod-build
           path: build
   deploy:
     name: Deploy
@@ -26,14 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       - name: Download Artifact
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1
         with:
-          name: build
+          name: prod-build
       - name: Deploy Prod
-        uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@development
         with:
-          args: deploy --only hosting:prod-portfolio
+          args: deploy --only hosting:beta-portfolio
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
