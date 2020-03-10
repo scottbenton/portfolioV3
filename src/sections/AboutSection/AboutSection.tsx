@@ -33,8 +33,8 @@ export const AboutSection: FunctionComponent<SECTION_PROPS> = props => {
     if (
       data &&
       Object.values(data).length > 0 &&
-      splashImageURL &&
-      profileImageURL
+      (data["splashImage"] ? splashImageURL : true) &&
+      (data["profileImage"] ? profileImageURL : true)
     ) {
       setIsLoaded();
     }
