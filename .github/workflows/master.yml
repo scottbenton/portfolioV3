@@ -32,7 +32,7 @@ jobs:
         with:
           name: prod-build
       - name: Deploy Prod
-        uses: w9jds/firebase-action@development
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting:beta-portfolio
         env:
