@@ -2,7 +2,7 @@ name: Deploy Beta
 on:
   push:
     branches:
-      - development
+      - master
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: prod-build
+          name: build
           path: build
   deploy:
     name: Deploy
@@ -30,7 +30,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v1
         with:
-          name: prod-build
+          name: build
       - name: Deploy Prod
         uses: w9jds/firebase-action@master
         with:
