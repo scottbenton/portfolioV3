@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { FirebaseContext } from "./FirebaseContext";
-import FIREBASE_CONFIG from "hidden/firebase-config.json";
+import FIREBASE_CONFIG from "config/firebase-config.json";
 import firebase, { User } from "firebase/app";
 import "firebase/auth";
 import "firebase/analytics";

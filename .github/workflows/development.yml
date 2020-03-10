@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-        with: 
-          ref: 'development'
+        with:
+          ref: "development"
       - name: Install Dependencies
         run: npm install
       - name: Build
@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+        with:
+          ref: "development"
       - name: Download Artifact
         uses: actions/download-artifact@v1
         with:
