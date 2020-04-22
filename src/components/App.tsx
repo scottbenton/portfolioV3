@@ -72,7 +72,7 @@ export function App() {
             offsetTop
           } = evt.target;
           const isUserAtBottom = scrollHeight - scrollTop === clientHeight;
-          console.debug(isUserAtBottom);
+
           if (isUserAtBottom) {
             setSelectedSectionKey(SECTIONS.contact.dbKey);
           } else {
